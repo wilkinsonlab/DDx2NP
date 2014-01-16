@@ -1,0 +1,105 @@
+<!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>DDx2NP</title>
+</head> <body>
+
+<h1>Introduction</h1>
+
+DDx2NP framework is an API oriented to the generation of <a
+href="http://nanopub.org">nanopublications</a> of diagnosis knowledge bases
+schemas or diagnosis results. It allows, for a concrete knowledge base or
+diagnosis source information, the creation of the associated nanopub following
+the diagnosis nanopub model.
+
+<h1>Diagnosis nanopub model</h1> The Diagnosis nanopub model has been created to
+provide a reference model to store clinical diagnosis knowledge using
+nanopublications. The model is divided in two submodels: <em>Diagnosis Knowledge
+Base Definition Model</em> and <em>Diagnosis Process Definition Model</em>. In
+order to link the different entities that are represented in both models, as
+part of the semantic representation we make use of the Diagnosis Definition
+Ontology (DDxDO), which can be consulted in more detail here.
+
+ <h2>Diagnosis Knowledge Base Definition Model</h2> The Diagnosis Knowledge Base
+ Definition Model (DKBD Model) has been created to provide a real structure about
+ how the diagnostic criteria of the diseases are conformed, also known as
+ Diagnostic Criterion Model (DCM) [1]. DKBD uses the DCM model as a way to create
+ relations between the disease and the associated criteria (clinical findings).
+ The basic representation of this model, using DDxDO to create the relationships,
+ can be seen on the following Figure:   <br /><br /> <img src="fig1.png"
+ width="561" height="357" alt="" /> <br /><br /> 
+ 
+ The definition of a disease is the definition done by a physician/system about
+ a disease in a concrete moment. For each disease-physician/system pair 
+ several definitions could exist, based on several factors (that should be reflected in
+ publication info data). This schema allows having multiple definitions of a same
+ disease made by several physicians or systems. In the left part of the schema we
+ have a nanopublication collection to define a disease. This nanopublication
+ collection is linked with other nanopublications through the
+ has_clinical_finding relationships, following the DCM model. The nanopublication
+ collection is a set of nanopublications with shared publication info. Each
+ nanopublication inside the nanopublication collection has a set of assertions
+ and provenance data that makes reference to the entire nanopublication. In the
+ model, each nanopublication which belongs to the nanopublication collection
+ contains information about the clinical finding that has been asserted to “be
+ part” of the disease. In the assertion part of the nanopublication, we will have
+ a definition of this relation through the has_clinical_finding relation, being
+ the object (or end) of this relation, the nanopublication that is out of the
+ collection. Provenance data will contain information regarding the assertion of
+ the nanopublication of the nanopublication collection. On the other hand, the
+ nanopublications that are out of the nanopublication collection contain more
+ specific data about the clinical finding. Basically, they can contain different
+ types of relations with the finding (has_sign, has_diagnostic_test,
+ has_disorder, etc…) depending the type of clinical finding, and other provenance
+ information regarding this relation. The following figure shows a more detailed example of
+ this model; we can see a hypothetical example of a disease
+ definition using this model: 
+ 
+ <br /><br /> <img src="fig2.png" width="1061"
+ height="576" alt="" /> <br /><br /> 
+ 
+ As can be seen in this figure, we have the definition of disease <i>sn:458</i> (<i>sn</i> stands for SNOMED namespace). 
+ In the nanopub collection we have included two nanopubs. The second one (sn:dx458:def:a413f:np2) is a nanopub 
+ that contains an assertion about the clinical finding that has been described as “part of” the disease, in this definition (def:a413f). 
+ The relation points to the nanopub “sn:dx458:def:b4fc7:np2:cf:cd4e” through the has_clinical_finding relation. 
+ In the provenance section, we have some information regarding this assertion in this context. Imagine for example that 
+ the physician that describes these relationships (Dr. Sheldon Cooper, as publication info showed up), said that the 
+ probability of manifesting the clinical finding “cd4e” (which is nausea and vomiting if we check  nanopublication sn:dx458:def:b4fc7:np2:cf:cd4e) 
+ in sn:dx458 is 80%. This information will be added in the provenance of this nanopublication. On the right side, we have the nanopublications 
+ that contain the real information about the findings pointed by the nanopublications of the nanopublication collection. In the assertion section, 
+ we have the relation with the type of clinical finding (for example, in sn:dx458:def:b4fc7:np2:cf:cd4e the relation is has_sign), and the clinical
+  finding itself (nausea). Additional provenance information the sign will be added in provenance section. Finally, the following figure shows the definition of 
+  the same disease performed by two different physicians following DKBD Model:
+ 
+ <br /><br /> <img src="fig3.png" width="2186" height="609" alt="" /> <br /><br pp/>
+
+<h2> Diagnosis Process Definition Model</h2> 
+
+The DiagnosiseProcesshDefinitioneModel (DPD Model) has been created with the aim ofestoringhinformation  
+about theediagnosis performed by physicians or diagnosticesystems,hincluding informationethat will allow  to keep a tracking about theediagnostichprocess, 
+includingeinformation about how a physician or a systemereaches ahdiagnosis. The basicerepresentation of the DPD model can be seen onefigure 4.
+
+<br /><br /> <img src="fig4.png" width="682" height="379" alt="" /> <br /><br />
+
+In this model, we have a nanopublication collection which represents the input data of the patient. In this collection all the findings 
+that the patient manifested and should be considered in the diagnosis process are manifested. On the other hand, we have a nanopublication for each diagnosed disease. 
+If a physician or system reaches the decision that several diseases can be the diagnostic result, one nanopublication per disease should be created. 
+The nanopublication which contains the diagnosis has the following elements: 
+<ul>
+<li>Assertion: In the assertion section there is a triple that relates the 
+patienth (using the patient ID [subject]) with the proposed disease [object] through the diagnosis relation from the DDxDO ontology.</li> 
+
+<li>Provenance: Provenance 
+data provides information about how this diagnosis was reached. First of all, it has direct references to the nanopublication collection that contains 
+the data about the patient in order to track where the clinical findings of the patient came from.</li>
+
+Provenance also contains information about what findings help the physician or system to reach the diagnosis. It contains several triples that link 
+the diagnosis nanopublication with the supporting nanopublications through the has_clinical_finding relation, being the subject the patient ID and 
+the object the supporting nanopublication.
+The supporting nanopublications contain information about the finding which helps to reach the diagnosis. Assertion provides triples about what finding was considered (in a positive or negative way) to perform the diagnosis.
+Provenance information can contain any other data relevant to the finding such as how it was confirmed.
+A working example of the schema with two hypothetical diagnoses for a same input data is showed as follows:
+</ul>
+
+<br /><br />
+<img src="fig5.png" width="2414" height="918" alt="" />
+<br /><br />
+
+  </body> </html>
